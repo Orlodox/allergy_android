@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+>
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:layout_alignParentTop="true"
+                    android:id="@+id/topActionBar"
+                    android:background="@color/colorPrimaryDark">
+        <TextView
+                android:id="@+id/titleOfTopActionBar"
+                android:textSize="33sp"
+                tools:text="Seasons"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle=""
+                android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottomMenu"
+            android:layout_below="@id/topActionBar"
+            android:id="@+id/fragmentContainer"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomMenu"
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:layout_height="50dp"
+            app:menu="@menu/bottom_menu"
+            app:itemIconSize="25dp"
+            app:itemTextColor="@color/selector"
+            app:itemIconTint="@color/selector"
+            android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

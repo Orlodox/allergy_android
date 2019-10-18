@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:icon="@drawable/ic_cloud"
+            android:id="@+id/bottomMenu_main"
+            android:title="Main"/>
+    <item
+            android:icon="@drawable/ic_map"
+            android:id="@+id/bottomMenu_map"
+            android:title="Map"/>
+    <item
+            android:icon="@drawable/ic_calendar"
+            android:id="@+id/bottomMenu_seasons"
+            android:title="Seasons"/>
+</menu>
