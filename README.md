@@ -14,7 +14,10 @@
 ### Что мы умеем сейчас?
 * Принимать обратную связь
 ## Технологии
-* ???
+* AndroidStudio
+* Kotlin
+* GitHub
+* Trello
 
 ## Команда
 * [Владимир Бахметьев](https://github.com/vladimirbahmetyev) - TeamLead, Android-TeamLead, BA
