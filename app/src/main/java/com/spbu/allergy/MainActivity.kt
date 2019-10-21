@@ -3,6 +3,7 @@ package com.spbu.allergy
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -10,6 +11,7 @@ import com.spbu.allergy.main.MainFragment
 import com.spbu.allergy.seasons.MapFragment
 import com.spbu.allergy.seasons.SeasonsFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.concurrent.thread
 
 
 class MainActivity : FragmentActivity() {
@@ -46,7 +48,15 @@ class MainActivity : FragmentActivity() {
                     titleOfTopActionBar.text = "Map"
                 }
                 else{
-                   ActivityCompat.requestPermissions(this, arrayOf(ACCESS_FINE_LOCATION), MY_PERMISSIONS_REQUEST_LOCATION)
+                    ActivityCompat.requestPermissions(this, arrayOf(ACCESS_FINE_LOCATION), MY_PERMISSIONS_REQUEST_LOCATION)
+
+                    //TODO create something for waiting async requestPermissions operation (next if is not working in this context) or show map without geoLoc
+                    Thread.sleep(1500)
+                    if(hasGeolocationPermission()) {
+                        supportFragmentManager.beginTransaction()
+                            .replace(fragmentContainer.id, mapFragment).commit()
+                        titleOfTopActionBar.text = "Map"
+                    }
                 }
             }
             R.id.bottomMenu_seasons -> {

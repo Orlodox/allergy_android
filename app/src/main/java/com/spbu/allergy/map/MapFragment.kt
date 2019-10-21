@@ -12,6 +12,8 @@ import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.spbu.allergy.R.id.mapView
+import com.spbu.allergy.R.layout.fragment_map
 
 
 class MapFragment : Fragment() {
@@ -24,9 +26,9 @@ class MapFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(com.spbu.allergy.R.layout.fragment_map, container, false)
+        val rootView = inflater.inflate(fragment_map, container, false)
 
-        mMapView = rootView.findViewById(com.spbu.allergy.R.id.mapView)
+        mMapView = rootView.findViewById(mapView)
         mMapView!!.onCreate(savedInstanceState)
 
         mMapView!!.onResume() // needed to get the map to display immediately
@@ -43,13 +45,10 @@ class MapFragment : Fragment() {
             // For showing a move to my location button
             googleMap!!.isMyLocationEnabled = true
 
-            // For dropping a marker at a point on the Map
             val punk = LatLng(59.874, 29.828)
-            googleMap!!.addMarker(MarkerOptions().position(punk).title("Marker Title").snippet("Marker Description"))
-
             // For zooming automatically to the location of the marker
-            val cameraPosition = CameraPosition.Builder().target(punk).zoom(12f).build()
-            googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+            val cameraPosition = CameraPosition.Builder().target(punk).zoom(13f).build()
+            googleMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         }
 
         return rootView
