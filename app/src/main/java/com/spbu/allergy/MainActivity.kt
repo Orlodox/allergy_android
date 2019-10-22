@@ -3,11 +3,10 @@ package com.spbu.allergy
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.spbu.allergy.main.MainFragment
-import com.spbu.allergy.seasons.MapFragment
+import com.spbu.allergy.map.MapFragment
 import com.spbu.allergy.seasons.SeasonsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,7 +17,6 @@ class MainActivity : FragmentActivity(){
     private lateinit var mapFragment: MapFragment
     private lateinit var seasonsFragment: SeasonsFragment
 
-    private val MY_PERMISSIONS_REQUEST_LOCATION = 99
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,7 +26,7 @@ class MainActivity : FragmentActivity(){
 
     private fun initMainData() {
         mainFragment = MainFragment()
-        mapFragment = MapFragment()
+        mapFragment = MapFragment((this::havingGeolocationPermission))
         seasonsFragment = SeasonsFragment()
         bottomMenu.setOnNavigationItemSelectedListener { onBottomMenuClickListener(it.itemId) }
     }
@@ -40,22 +38,9 @@ class MainActivity : FragmentActivity(){
                 titleOfTopActionBar.text = "Main"
             }
             R.id.bottomMenu_map -> {
-                if(hasGeolocationPermission()) {
-                    supportFragmentManager.beginTransaction()
-                        .replace(fragmentContainer.id, mapFragment).commit()
-                    titleOfTopActionBar.text = "Map"
-                }
-                else{
-                    ActivityCompat.requestPermissions(this, arrayOf(ACCESS_FINE_LOCATION), MY_PERMISSIONS_REQUEST_LOCATION)
-
-                    //TODO create something for waiting async requestPermissions operation (next if is not working in this context) or show map without geoLoc
-                    Thread.sleep(1500)
-                    if(hasGeolocationPermission()) {
-                        supportFragmentManager.beginTransaction()
-                            .replace(fragmentContainer.id, mapFragment).commit()
-                        titleOfTopActionBar.text = "Map"
-                    }
-                }
+                supportFragmentManager.beginTransaction()
+                .replace(fragmentContainer.id, mapFragment).commit()
+                titleOfTopActionBar.text = "Map"
             }
             R.id.bottomMenu_seasons -> {
                 supportFragmentManager.beginTransaction().replace(fragmentContainer.id, seasonsFragment).commit()
@@ -65,7 +50,7 @@ class MainActivity : FragmentActivity(){
         return true
     }
 
-    private fun hasGeolocationPermission():Boolean{
+    private fun havingGeolocationPermission():Boolean{
         if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED) {
             return false
@@ -73,3 +58,7 @@ class MainActivity : FragmentActivity(){
         return true
     }
 }
+
+//ActivityCompat.requestPermissions(this, arrayOf(ACCESS_FINE_LOCATION), MY_PERMISSIONS_REQUEST_LOCATION) example how request permission
+//private val MY_PERMISSIONS_REQUEST_LOCATION = 99
+

@@ -1,4 +1,4 @@
-package com.spbu.allergy.seasons
+package com.spbu.allergy.map
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,9 +17,10 @@ import com.spbu.allergy.R
 import com.spbu.allergy.R.layout.fragment_map
 
 
-class MapFragment : Fragment(){
+class MapFragment(hasGeolocationPermission:()->Boolean) : Fragment(){
 
-    var mMapView: MapView? = null
+    private var geolocationPermissions = hasGeolocationPermission
+    private var mMapView: MapView? = null
     private var googleMap: GoogleMap? = null
 
     var forecastSeekBar : SeekBar? = null
@@ -45,7 +46,9 @@ class MapFragment : Fragment(){
             googleMap = mMap
 
             // For showing a move to my location button
-            googleMap!!.isMyLocationEnabled = true
+            if (geolocationPermissions()) {
+                googleMap!!.isMyLocationEnabled = true
+            }
 
             val punk = LatLng(59.874, 29.828)
             // For moving automatically to the location of the marker
