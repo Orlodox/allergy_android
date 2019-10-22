@@ -20,11 +20,11 @@ import com.spbu.allergy.R.layout.fragment_map
 class MapFragment(hasGeolocationPermission:()->Boolean) : Fragment(){
 
     private var geolocationPermissions = hasGeolocationPermission
-    private var mMapView: MapView? = null
-    private var googleMap: GoogleMap? = null
+    private lateinit var mMapView: MapView
+    private lateinit var googleMap: GoogleMap
 
-    var forecastSeekBar : SeekBar? = null
-    var forecastMessageItem : TextView? = null
+    private lateinit var forecastSeekBar : SeekBar
+    private lateinit var forecastMessageItem : TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -32,9 +32,9 @@ class MapFragment(hasGeolocationPermission:()->Boolean) : Fragment(){
 
         mMapView = rootView.findViewById(R.id.mapView)
 
-        mMapView!!.onCreate(savedInstanceState)
+        mMapView.onCreate(savedInstanceState)
 
-        mMapView!!.onResume() // needed to get the map to display immediately
+        mMapView.onResume() // needed to get the map to display immediately
 
         try {
             MapsInitializer.initialize(activity!!.applicationContext)
@@ -42,27 +42,27 @@ class MapFragment(hasGeolocationPermission:()->Boolean) : Fragment(){
             e.printStackTrace()
         }
 
-        mMapView!!.getMapAsync { mMap ->
+        mMapView.getMapAsync { mMap ->
             googleMap = mMap
 
             // For showing a move to my location button
             if (geolocationPermissions()) {
-                googleMap!!.isMyLocationEnabled = true
+                googleMap.isMyLocationEnabled = true
             }
 
             val punk = LatLng(59.874, 29.828)
             // For moving automatically to the location of the marker
             val cameraPosition = CameraPosition.Builder().target(punk).zoom(13f).build()
-            googleMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         }
 
         forecastSeekBar = rootView.findViewById(R.id.seekBarForecast)
         forecastMessageItem = rootView.findViewById(R.id.progress)
-        forecastSeekBar!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        forecastSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
 
             override fun onProgressChanged(seekBar: SeekBar, progress: Int,
                                            fromUser: Boolean) {
-                forecastMessageItem!!.text = "Current forecast for ${forecastSeekBar!!.progress} days"
+                forecastMessageItem.text = "Current forecast for ${forecastSeekBar.progress} days"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -75,21 +75,21 @@ class MapFragment(hasGeolocationPermission:()->Boolean) : Fragment(){
     }
     override fun onResume() {
         super.onResume()
-        mMapView!!.onResume()
+        mMapView.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        mMapView!!.onPause()
+        mMapView.onPause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mMapView!!.onDestroy()
+        mMapView.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        mMapView!!.onLowMemory()
+        mMapView.onLowMemory()
     }
 }
