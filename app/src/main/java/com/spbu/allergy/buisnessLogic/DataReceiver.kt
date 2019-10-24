@@ -1,45 +1,40 @@
-package com.spbu.allergy
+package com.spbu.allergy.buisnessLogic
 
 class DataReceiverFactory(private val userProfileSettings : UserProfile, private val forecastApi: SomeApi, private val updatableScreens : Array<UpdatableFragment>) {
     private var instance: DataReceiver? = null
 
     fun getInstance() : DataReceiver =
         if (instance == null)
-            DataReceiver(userProfileSettings, forecastApi, updatableScreens)
+            DataReceiver(
+                userProfileSettings,
+                forecastApi,
+                updatableScreens
+            )
         else
             instance!!
 
     class DataReceiver(private val userProfileSettings : UserProfile, private val forecastApi : SomeApi, private val updatableScreens : Array<UpdatableFragment>){
 
-        private fun dataRequest(user: UserData): Data = forecastApi.request( user)
+        private fun dataRequest(userProfileData: UserData): Data = forecastApi.request( userProfileData)
 
-        private fun refreshScreens(currentData:Data){
+        private fun refreshScreens(currentData: Data){
             for (screen in updatableScreens){
-                screen.Update(currentData)
+                screen.update(currentData)
             }
+        }
+
+        public  fun refreshData(){
+            val currentUserData = userProfileSettings.getInfo()
+            val currentData = dataRequest(currentUserData)
+            refreshScreens(currentData)
         }
 
         fun start(){
             while (true){
-                val currentUserData = userProfileSettings.getInfo()
-                val currentData = dataRequest(currentUserData)
-                refreshScreens(currentData)
+                refreshData()
+                //Возможное время обновления можно изменить
                 val threeHours = (1000 * 60 * 60  * 3).toLong()
                 Thread.sleep(threeHours)}
         }
-    }
-}
-
-//Далее идут аглушки для класса
-class Data{}
-class UserData{}
-class UserProfile{
-    fun getInfo(): UserData {
-        return UserData()
-    }
-}
-class SomeApi() {
-    fun request(user : UserData):Data {
-        return Data()
     }
 }
