@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Allergy</string>
+    <string name="map_forecast_default">Current forecast for 3 days</string>
 </resources>
