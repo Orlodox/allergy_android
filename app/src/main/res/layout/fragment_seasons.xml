@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/border_around"
+        android:orientation="vertical">
 
-    <TextView android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:text="SEASONS FRAGMENT"
-              android:gravity="center"/>
+    <TextView
+            android:id="@+id/currentMonthTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_margin="15dp"
+            android:layout_marginBottom="0dp"
+            android:gravity="center"
+            android:text="Annual flowering calendar"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+    <FrameLayout
+            android:id="@+id/calendarPlace"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/currentMonthTextView"
+            android:gravity="center_horizontal"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
+
+    </FrameLayout>
+
+
 </RelativeLayout>
