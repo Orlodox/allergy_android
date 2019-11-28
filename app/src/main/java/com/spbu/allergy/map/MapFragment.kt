@@ -15,9 +15,11 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.spbu.allergy.R
 import com.spbu.allergy.R.layout.fragment_map
+import com.spbu.allergy.buisnessLogic.Data
+import com.spbu.allergy.buisnessLogic.UpdatableFragment
 
 
-class MapFragment(hasGeolocationPermission:()->Boolean) : Fragment(){
+class MapFragment(hasGeolocationPermission:()->Boolean) : Fragment(), UpdatableFragment{
 
     private var geolocationPermissions = hasGeolocationPermission
     private lateinit var mMapView: MapView
@@ -91,5 +93,9 @@ class MapFragment(hasGeolocationPermission:()->Boolean) : Fragment(){
     override fun onLowMemory() {
         super.onLowMemory()
         mMapView.onLowMemory()
+    }
+
+    override fun update(currentData : Data) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

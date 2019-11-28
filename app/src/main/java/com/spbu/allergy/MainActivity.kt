@@ -11,7 +11,7 @@ import com.spbu.allergy.seasons.SeasonsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : FragmentActivity(){
+class MainActivity : FragmentActivity() {
 
     private lateinit var mainFragment: MainFragment
     private lateinit var mapFragment: MapFragment
@@ -34,28 +34,45 @@ class MainActivity : FragmentActivity(){
     private fun onBottomMenuClickListener(menuItemID: Int): Boolean {
         when (menuItemID) {
             R.id.bottomMenu_main -> {
-                supportFragmentManager.beginTransaction().replace(fragmentContainer.id, mainFragment).commit()
+                supportFragmentManager.beginTransaction()
+                    .replace(fragmentContainer.id, mainFragment).commit()
                 titleOfTopActionBar.text = "Main"
             }
             R.id.bottomMenu_map -> {
                 supportFragmentManager.beginTransaction()
-                .replace(fragmentContainer.id, mapFragment).commit()
+                    .replace(fragmentContainer.id, mapFragment).commit()
                 titleOfTopActionBar.text = "Map"
             }
             R.id.bottomMenu_seasons -> {
-                supportFragmentManager.beginTransaction().replace(fragmentContainer.id, seasonsFragment).commit()
+                supportFragmentManager.beginTransaction()
+                    .replace(fragmentContainer.id, seasonsFragment).commit()
                 titleOfTopActionBar.text = "Seasons"
             }
         }
         return true
     }
 
-    private fun havingGeolocationPermission():Boolean{
+    private fun havingGeolocationPermission(): Boolean {
         if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
+            != PackageManager.PERMISSION_GRANTED
+        ) {
             return false
         }
         return true
+    }
+
+    override fun onBackPressed() {
+
+        val fragmentList = supportFragmentManager.fragments
+
+        var handled = false
+        for (f in fragmentList) {
+            if (f is SeasonsFragment) {
+                handled = f.onBackPressed()
+                if (handled) break
+            }
+        }
+        if (!handled) super.onBackPressed()
     }
 }
 

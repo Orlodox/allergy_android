@@ -1,11 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/border_around"
+        android:orientation="vertical">
 
-    <TextView android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:text="SEASONS FRAGMENT"
-              android:gravity="center"/>
+    <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_margin="15dp"
+            android:layout_marginBottom="0dp"
+            android:gravity="center"
+            android:text="Flowering calendar"
+            android:textColor="@color/colorPrimary"
+            android:textSize="25sp" />
+
+    <FrameLayout
+            android:id="@+id/calendarPlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/spinnersPlace"
+            android:layout_below="@+id/titleTextView"
+            android:gravity="center_horizontal"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
+
+    </FrameLayout>
+
+    <LinearLayout
+            android:id="@+id/spinnersPlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="10dp">
+
+        <Spinner
+                android:id="@+id/monthSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:paddingRight="3dp"
+                android:paddingLeft="3dp"
+                android:visibility="gone" />
+
+        <Spinner
+                android:id="@+id/allergenSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingRight="3dp"
+                android:paddingLeft="3dp"
+                android:background="@null" />
+    </LinearLayout>
+
+
 </RelativeLayout>
