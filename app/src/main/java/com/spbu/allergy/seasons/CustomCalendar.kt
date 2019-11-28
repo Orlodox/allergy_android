@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.Gravity
+import android.view.View
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
@@ -16,7 +17,8 @@ class CustomCalendar(private val context: Context) {
     fun getYear(
         year: Int = Calendar.getInstance()[Calendar.YEAR],
         rowsAndColumns: Pair<Int, Int> = 4 to 3,
-        floweringRanges: Array<Pair<Calendar, Calendar>> = emptyArray()
+        floweringRanges: Array<Pair<Calendar, Calendar>> = emptyArray(),
+        onMonthClickListener: View.OnClickListener
     ): TableLayout {
 
         val annualCalendar = TableLayout(context)
@@ -26,7 +28,8 @@ class CustomCalendar(private val context: Context) {
                 monthsRow.addView(
                     getMonth(
                         3 * (row - 1) + column - 1,
-                        highlightRanges = floweringRanges
+                        highlightRanges = floweringRanges,
+                        onMonthClickListener = onMonthClickListener
                     )
                 )
             }
@@ -40,10 +43,12 @@ class CustomCalendar(private val context: Context) {
         monthNumber: Int = Calendar.getInstance()[Calendar.MONTH],
         year: Int = Calendar.getInstance()[Calendar.YEAR],
         highlightRanges: Array<Pair<Calendar, Calendar>> = emptyArray(),
-        isBigSize: Boolean = false
+        isBigSize: Boolean = false,
+        onMonthClickListener: View.OnClickListener? = null
     ): TableLayout {
 
         val monthTable = TableLayout(context)
+        monthTable.setOnClickListener(onMonthClickListener)
         val firstDayOfMonth =
             GregorianCalendar(Calendar.getInstance()[Calendar.YEAR], monthNumber, 1)
         var firstDayIndex = (firstDayOfMonth[Calendar.DAY_OF_WEEK] + 6) % 7
@@ -51,7 +56,7 @@ class CustomCalendar(private val context: Context) {
         val dayCount = firstDayOfMonth.getActualMaximum(Calendar.DAY_OF_MONTH)
         val extraDays = 1 - firstDayIndex
         val highLightDays = getHighLightDays(highlightRanges, monthNumber, dayCount)
-        val textSize = if (isBigSize) 30f else 13f
+        val textSize = if (isBigSize) 35f else 13f
         val color = Color.parseColor("#7F393F")
 
 
@@ -67,10 +72,13 @@ class CustomCalendar(private val context: Context) {
                     textView.gravity = Gravity.CENTER
                     textView.setTextColor(Color.WHITE)
                     textView.textSize = textSize
-                    textView.setPadding(0, 2, 0, 0)
+                    if (isBigSize) textView.setPadding(10, 10, 10, 10)
+                    else textView.setPadding(0, 2, 0, 0)
                 } else textView.text = ""
                 week.addView(textView)
             }
+            week.gravity = Gravity.CENTER
+            if (isBigSize) week.setPadding(0, 0, 0, 30)
             monthTable.addView(week)
         }
         monthTable.setPadding(10)
@@ -78,10 +86,21 @@ class CustomCalendar(private val context: Context) {
         tv.setTextColor(Color.WHITE)
         tv.gravity = Gravity.CENTER
         tv.textSize = if (isBigSize) 50f else 20f
+        if (isBigSize) tv.letterSpacing = 0.13f
         tv.text = DateFormatSymbols(Locale.ENGLISH).months[monthNumber]
         tv.typeface = Typeface.DEFAULT_BOLD
-        tv.setPadding(0, 0, 0, if (isBigSize) 20 else 5)
+        tv.setPadding(0, if (isBigSize) 20 else 0, 0, if (isBigSize) 40 else 5)
         monthTable.addView(tv, 0)
+
+        if (isBigSize) {
+            val titleTextView = TextView(context)
+            titleTextView.textSize = 25f
+            titleTextView.setPadding(0, 40, 0, 0)
+            titleTextView.gravity = Gravity.CENTER
+            titleTextView.text = "Tap on a day to set a reminder"
+            titleTextView.setTextColor(Color.parseColor("#65AFFA"))
+            monthTable.addView(titleTextView)
+        }
         return monthTable
     }
 
@@ -92,15 +111,14 @@ class CustomCalendar(private val context: Context) {
     ): Set<Int> {
         var highLightDays = emptySet<Int>()
         highlightRanges.forEach { range ->
-
-            if (range.first < range.second
-                && range.first[Calendar.MONTH] <= monthNumber + 1
-                && range.second[Calendar.MONTH] >= monthNumber + 1
+            if (range.first <= range.second
+                && range.first[Calendar.MONTH] <= monthNumber
+                && range.second[Calendar.MONTH] >= monthNumber
             ) {
                 val firstRangeDay =
-                    if (range.first[Calendar.MONTH] < monthNumber + 1) 1 else range.first[Calendar.DAY_OF_MONTH]
+                    if (range.first[Calendar.MONTH] < monthNumber) 1 else range.first[Calendar.DAY_OF_MONTH]
                 val lastRangeDay =
-                    if (range.second[Calendar.MONTH] > monthNumber + 1) dayCount else range.second[Calendar.DAY_OF_MONTH]
+                    if (range.second[Calendar.MONTH] > monthNumber) dayCount else range.second[Calendar.DAY_OF_MONTH]
 
                 highLightDays = highLightDays.plus(firstRangeDay..lastRangeDay)
             }

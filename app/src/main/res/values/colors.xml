@@ -3,9 +3,13 @@
     <color name="colorPrimary">#65AFFA</color>
     <color name="colorPrimaryDark">#E524414F</color>
     <color name="colorAccent">#007AFF</color>
+
     <color name="white">#FFFFFF</color>
 
     <color name="secondBackground">#1D323E</color>
+    <color name="selectorBackground">#085CB4</color>
+    <color name="selectorDropDownBackground">#151F25</color>
+
 
 
 </resources>
