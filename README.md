@@ -25,6 +25,9 @@
 * [Кирилл Орлов](https://github.com/Orlodox) - Android-Devoloper
 * [Святослав Анисимов](https://github.com/Laretesad) - Android-Devoloper
 * [Тимур Шарафутдинов](https://github.com/Tim882) - IOS-Devoloper
+
+## [Задания команды Android](https://trello.com/b/vKjUH6NQ/task-board)
+
 ### [Версия для IOS](https://github.com/N-ihad/allergy_ios)
 
 ### Вопросы и пожелания
